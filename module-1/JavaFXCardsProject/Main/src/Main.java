@@ -35,7 +35,7 @@ public class Main extends Application {
         cardBox.setAlignment(Pos.CENTER);
         cardBox.setPadding(new Insets(20));
 
-        // Initialize ImageView objects using lambda expression
+        // Lambda expression used to initialize ImageView objects in a loop
         IntStream.range(0, 4).forEach(i -> {
             cardViews[i] = new ImageView();
             cardViews[i].setFitHeight(200);
@@ -44,7 +44,7 @@ public class Main extends Application {
             cardBox.getChildren().add(cardViews[i]);
         });
 
-        // Refresh button
+        // Lambda expression used for event handling when refresh button is clicked
         Button refreshButton = new Button("Refresh Cards");
         refreshButton.setPrefWidth(160);
         refreshButton.setPrefHeight(45);
@@ -55,7 +55,7 @@ public class Main extends Application {
             "-fx-font-weight: bold;" +
             "-fx-background-radius: 5px;"
         );
-        refreshButton.setOnAction(e -> shuffleAndDisplayCards());
+        refreshButton.setOnAction(e -> shuffleAndDisplayCards()); // Lambda expression
 
         // VBox to hold everything
         VBox root = new VBox(20);
@@ -87,10 +87,10 @@ public class Main extends Application {
             return;
         }
 
-        // Filter only valid card numbers (1-52) and ignore jokers or back images
+        // Lambda expression used to filter out only valid card numbers (1-52)
         List<String> validCards = Arrays.stream(Objects.requireNonNull(cardFolder.listFiles((dir, name) -> name.endsWith(".png"))))
                 .map(File::getName)
-                .filter(name -> {
+                .filter(name -> { // Lambda function used for filtering
                     try {
                         int num = Integer.parseInt(name.replace(".png", ""));
                         return num >= 1 && num <= 52; // Only allow 1-52
@@ -99,7 +99,7 @@ public class Main extends Application {
                     }
                 })
                 .map(name -> new File(cardFolder, name).getPath()) // Convert to full file path
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // Collect results into a list
 
         if (validCards.size() < 4) {
             showAlert("Error", "Not enough card images!", "Ensure at least 4 valid card images (1-52.png) are in the 'cards' folder.");
@@ -110,7 +110,7 @@ public class Main extends Application {
         Collections.shuffle(validCards);
         List<String> chosenCards = validCards.subList(0, 4);
 
-        // Set images using lambda expression
+        // Lambda expression used to set images for ImageView elements
         IntStream.range(0, 4).forEach(i ->
             cardViews[i].setImage(new Image("file:" + chosenCards.get(i)))
         );
