@@ -2,11 +2,9 @@
 // Date: 04/21/2025
 // Assignment: M1: Programming Assignment
 
+// This program displays 4 random card images from a specified folder and allows the user to refresh the display.
+// It ensures only cards numbered 1 to 52 are used, excluding any back or joker images.
 
-// This program displays 4 random card images from
-// a specified folder and allows the user to refresh the display.  
-// It uses JavaFX for the GUI and handles image loading and shuffling.
- 
 package src;
 
 import javafx.application.Application;
@@ -25,11 +23,11 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main extends Application {
 
     private final ImageView[] cardViews = new ImageView[4];
+    private static final String CARD_DIRECTORY = "cards";
 
     @Override
     public void start(Stage primaryStage) {
@@ -40,8 +38,8 @@ public class Main extends Application {
         // Initialize ImageView objects using lambda expression
         IntStream.range(0, 4).forEach(i -> {
             cardViews[i] = new ImageView();
-            cardViews[i].setFitHeight(200); // Standard height for uniformity
-            cardViews[i].setFitWidth(140);  // Set width for better consistency
+            cardViews[i].setFitHeight(200);
+            cardViews[i].setFitWidth(140);
             cardViews[i].setPreserveRatio(true);
             cardBox.getChildren().add(cardViews[i]);
         });
@@ -83,24 +81,34 @@ public class Main extends Application {
     }
 
     private void shuffleAndDisplayCards() {
-        // Get all PNG files from "cards" folder
-        File cardFolder = new File("cards");
-        File[] filesInFolder = Optional.ofNullable(cardFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".png")))
-                                       .orElse(new File[0]);
-
-        if (filesInFolder.length < 4) {
-            showAlert("Error", "Not enough card images!", "Ensure at least 4 images are in the 'cards' folder.");
+        File cardFolder = new File(CARD_DIRECTORY);
+        if (!cardFolder.exists() || !cardFolder.isDirectory()) {
+            showAlert("Error", "Card directory not found!", "Ensure the 'cards' folder exists.");
             return;
         }
 
-        // Convert File[] to a List using Streams and lambda expression
-        List<String> cardFilePaths = Stream.of(filesInFolder)
-                                           .map(File::getPath)
-                                           .collect(Collectors.toList());
+        // Filter only valid card numbers (1-52) and ignore jokers or back images
+        List<String> validCards = Arrays.stream(Objects.requireNonNull(cardFolder.listFiles((dir, name) -> name.endsWith(".png"))))
+                .map(File::getName)
+                .filter(name -> {
+                    try {
+                        int num = Integer.parseInt(name.replace(".png", ""));
+                        return num >= 1 && num <= 52; // Only allow 1-52
+                    } catch (NumberFormatException e) {
+                        return false; // Ignore non-numeric files
+                    }
+                })
+                .map(name -> new File(cardFolder, name).getPath()) // Convert to full file path
+                .collect(Collectors.toList());
+
+        if (validCards.size() < 4) {
+            showAlert("Error", "Not enough card images!", "Ensure at least 4 valid card images (1-52.png) are in the 'cards' folder.");
+            return;
+        }
 
         // Shuffle and select 4 random images
-        Collections.shuffle(cardFilePaths);
-        List<String> chosenCards = cardFilePaths.subList(0, 4);
+        Collections.shuffle(validCards);
+        List<String> chosenCards = validCards.subList(0, 4);
 
         // Set images using lambda expression
         IntStream.range(0, 4).forEach(i ->
