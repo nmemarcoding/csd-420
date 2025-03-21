@@ -1,9 +1,19 @@
+// Name: Nima Memarzadeh
+// Date: 04/21/2025
+// Assignment: M1: Programming Assignment
+
+
+// This program displays 4 random card images from
+// a specified folder and allows the user to refresh the display.  
+// It uses JavaFX for the GUI and handles image loading and shuffling.
+ 
 package src;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,28 +29,27 @@ import java.util.stream.Stream;
 
 public class Main extends Application {
 
-    // ImageViews for displaying the 4 cards
     private final ImageView[] cardViews = new ImageView[4];
 
     @Override
     public void start(Stage primaryStage) {
-        // HBox to hold card images
         HBox cardBox = new HBox(20);
         cardBox.setAlignment(Pos.CENTER);
         cardBox.setPadding(new Insets(20));
 
-        // Initialize ImageView objects using a lambda
+        // Initialize ImageView objects
         IntStream.range(0, 4).forEach(i -> {
             cardViews[i] = new ImageView();
-            cardViews[i].setFitHeight(200);
+            cardViews[i].setFitHeight(200); // Standard height for uniformity
+            cardViews[i].setFitWidth(140);  // Set width for better consistency
             cardViews[i].setPreserveRatio(true);
             cardBox.getChildren().add(cardViews[i]);
         });
 
-        // Refresh button with Lambda event handler
+        // Refresh button
         Button refreshButton = new Button("Refresh Cards");
-        refreshButton.setPrefWidth(150);
-        refreshButton.setPrefHeight(40);
+        refreshButton.setPrefWidth(160);
+        refreshButton.setPrefHeight(45);
         refreshButton.setStyle(
             "-fx-background-color: #336699;" +
             "-fx-text-fill: white;" +
@@ -48,7 +57,7 @@ public class Main extends Application {
             "-fx-font-weight: bold;" +
             "-fx-background-radius: 5px;"
         );
-        refreshButton.setOnAction(e -> shuffleAndDisplayCards()); 
+        refreshButton.setOnAction(e -> shuffleAndDisplayCards());
 
         // VBox to hold everything
         VBox root = new VBox(20);
@@ -68,23 +77,23 @@ public class Main extends Application {
 
         // Create and show scene
         Scene scene = new Scene(root, 750, 500);
-        primaryStage.setTitle("Professional Card Display");
+        primaryStage.setTitle("Card Display");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     private void shuffleAndDisplayCards() {
-        // Get all PNG files from "cards" folder using a Lambda
+        // Get all PNG files from "cards" folder
         File cardFolder = new File("cards");
         File[] filesInFolder = Optional.ofNullable(cardFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".png")))
                                        .orElse(new File[0]);
 
-        if (filesInFolder.length == 0) {
-            System.out.println("No PNG files found in 'cards' folder!");
+        if (filesInFolder.length < 4) {
+            showAlert("Error", "Not enough card images!", "Ensure at least 4 images are in the 'cards' folder.");
             return;
         }
 
-        // Convert File[] to a List using Streams and Lambdas
+        // Convert File[] to a List using Streams
         List<String> cardFilePaths = Stream.of(filesInFolder)
                                            .map(File::getPath)
                                            .collect(Collectors.toList());
@@ -93,10 +102,18 @@ public class Main extends Application {
         Collections.shuffle(cardFilePaths);
         List<String> chosenCards = cardFilePaths.subList(0, 4);
 
-        // Set images in a functional way
-        IntStream.range(0, 4).forEach(i -> 
+        // Set images
+        IntStream.range(0, 4).forEach(i ->
             cardViews[i].setImage(new Image("file:" + chosenCards.get(i)))
         );
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {
