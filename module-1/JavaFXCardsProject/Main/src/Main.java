@@ -37,7 +37,7 @@ public class Main extends Application {
         cardBox.setAlignment(Pos.CENTER);
         cardBox.setPadding(new Insets(20));
 
-        // Initialize ImageView objects
+        // Initialize ImageView objects using lambda expression
         IntStream.range(0, 4).forEach(i -> {
             cardViews[i] = new ImageView();
             cardViews[i].setFitHeight(200); // Standard height for uniformity
@@ -93,7 +93,7 @@ public class Main extends Application {
             return;
         }
 
-        // Convert File[] to a List using Streams
+        // Convert File[] to a List using Streams and lambda expression
         List<String> cardFilePaths = Stream.of(filesInFolder)
                                            .map(File::getPath)
                                            .collect(Collectors.toList());
@@ -102,7 +102,7 @@ public class Main extends Application {
         Collections.shuffle(cardFilePaths);
         List<String> chosenCards = cardFilePaths.subList(0, 4);
 
-        // Set images
+        // Set images using lambda expression
         IntStream.range(0, 4).forEach(i ->
             cardViews[i].setImage(new Image("file:" + chosenCards.get(i)))
         );
