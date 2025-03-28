@@ -60,8 +60,10 @@ public class DataReader {
                 }
             }
         } catch (IOException e) {
+            // Handle file reading errors
             System.err.println("Error reading file: " + e.getMessage());
         } catch (NumberFormatException e) {
+            // Handle number parsing errors
             System.err.println("Error parsing numbers from file: " + e.getMessage());
         }
     }
