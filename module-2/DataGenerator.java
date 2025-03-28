@@ -1,3 +1,10 @@
+// Name: Nima Memarzadeh
+// Date: 04/28/2025
+// Assignment: M2: Programming Assignment
+
+// Description: This program generates random integer and double arrays,
+//              writes them to a file, and appends the data to the file.
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,7 +13,7 @@ import java.util.Random;
 public class DataGenerator {
 
     public static void main(String[] args) {
-        String filename = "nimamemarzadehdatafile.dat"; // Replace with your name
+        String filename = "nimamemarzadehdatafile.dat"; 
         int[] intArray = new int[5];
         double[] doubleArray = new double[5];
 
