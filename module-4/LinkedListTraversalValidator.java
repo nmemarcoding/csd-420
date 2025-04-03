@@ -1,6 +1,6 @@
 // Name: Nima Memarzadeh
 // Date: 04/01/2025
-// Assignment: M2: Programming Assignment
+// Assignment: M4: Programming Assignment
 
 // This program tests the performance of traversing a LinkedList using two methods:
 // 1. Using an Iterator
