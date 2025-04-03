@@ -1,7 +1,18 @@
+// Name: Nima Memarzadeh
+// Date: 04/01/2025
+// Assignment: M2: Programming Assignment
+
+// This program tests the performance of traversing a LinkedList using two methods:
+// 1. Using an Iterator
+// 2. Using the get(index) method
+// It compares the time taken for each method and prints the results. The program also includes error handling
+// and assertions to ensure the correctness of the operations performed on the LinkedList.
+// The expected results are explained in the comments at the end of the code.
+
 import java.util.LinkedList;
 import java.util.Iterator;
 
-public class LinkedListTraversalTest {
+public class LinkedListTraversalValidator {
 
     // Populate LinkedList with sequential integers
     public static LinkedList<Integer> populateList(int size) {
