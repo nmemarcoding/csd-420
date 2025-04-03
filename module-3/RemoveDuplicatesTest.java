@@ -1,6 +1,6 @@
 // Name: Nima Memarzadeh
 // Date: 04/03/2025
-// Assignment: M2: Programming Assignment
+// Assignment: M3: Programming Assignment
 
 // This program generates an ArrayList with 50 random values from 1 to 20,
 // removes duplicates from the list, and prints the original and modified 
