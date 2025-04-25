@@ -1,5 +1,16 @@
 /* This CSS file styles the circles and the rectangular box in the CircleStyleApp. */
 
+.main-hbox {
+    -fx-padding: 10;
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+.cell-stack {
+    -fx-pref-width: 80;
+    -fx-pref-height: 200;
+}
+
 .plaincircle {
     -fx-fill: white;
     -fx-stroke: black;

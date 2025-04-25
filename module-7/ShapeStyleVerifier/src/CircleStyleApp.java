@@ -10,65 +10,62 @@
 // The circles are styled with different colors and borders
 // using CSS classes and IDs.
 
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class CircleStyleApp extends Application {
     @Override
     public void start(Stage primaryStage) {
-        // Create the circles
-        Circle circle1 = new Circle(30);
-        Circle circle2 = new Circle(30);
-        Circle circle3 = new Circle(30);
-        Circle circle4 = new Circle(30);
+        // 1) HBox with 20px horizontal gap, 10px padding, and CENTER alignment on the cross-axis (vertical)
+        HBox hBox = new HBox(20);
+        hBox.setPadding(new Insets(10));
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getStyleClass().add("main-hbox");
 
-        // Apply CSS classes and IDs
-        circle1.getStyleClass().addAll("plaincircle");
-        circle2.getStyleClass().addAll("plaincircle", "circleborder");
-        circle3.setId("redcircle");
-        circle4.setId("greencircle");
+        // 2) First "cell": Replace Pane with StackPane for consistent centering
+        StackPane box = new StackPane();
+        // box.setPrefSize(80, 200);
+        box.getStyleClass().addAll("border", "cell-stack");
+        Circle c1 = new Circle(30);      // No need for x,y coordinates in StackPane
+        c1.getStyleClass().add("plaincircle");
+        box.getChildren().add(c1);
 
-        // Create rectangular box that contains only the first circle
-        Pane rectangleBox = new Pane();
-        rectangleBox.getStyleClass().add("border");
-        rectangleBox.setPrefWidth(80);
-        rectangleBox.setPrefHeight(200);
-        rectangleBox.getChildren().add(circle1);
+        // 3) Cells 2–4: StackPanes (all 80×200) to auto-center each circle vertically
+        StackPane cell2 = new StackPane();
+        // cell2.setPrefSize(80, 200);
+        cell2.getStyleClass().add("cell-stack");
+        Circle c2 = new Circle(30);
+        c2.getStyleClass().addAll("plaincircle", "circleborder");
+        cell2.getChildren().add(c2);
 
-        // Position the first circle inside the box
-        circle1.setCenterX(40);
-        circle1.setCenterY(100);
+        StackPane cell3 = new StackPane();
+        // cell3.setPrefSize(80, 200);
+        cell3.getStyleClass().add("cell-stack");
+        Circle c3 = new Circle(30);
+        c3.setId("redcircle");
+        cell3.getChildren().add(c3);
 
-        // Create main pane to hold everything
-        Pane mainPane = new Pane();
-        mainPane.setPadding(new Insets(10));
+        StackPane cell4 = new StackPane();
+        // cell4.setPrefSize(80, 200);
+        cell4.getStyleClass().add("cell-stack");
+        Circle c4 = new Circle(30);
+        c4.setId("greencircle");
+        cell4.getChildren().add(c4);
 
-        // Position the rectangular box
-        rectangleBox.setLayoutX(10);
-        rectangleBox.setLayoutY(10);
+        // Add all containers to the parent HBox layout
+        hBox.getChildren().addAll(box, cell2, cell3, cell4);
 
-        // Position the other three circles horizontally
-        circle2.setCenterX(120);
-        circle2.setCenterY(110);
-
-        circle3.setCenterX(190);
-        circle3.setCenterY(110);
-
-        circle4.setCenterX(260);
-        circle4.setCenterY(110);
-
-        // Add everything to the main pane
-        mainPane.getChildren().addAll(rectangleBox, circle2, circle3, circle4);
-
-        // Create the scene
-        Scene scene = new Scene(mainPane, 300, 220);
+        // Configure scene with dimensions and attach external stylesheet
+        Scene scene = new Scene(hBox, 380, 240);
         scene.getStylesheets().add("mystyle.css");
 
-        // Set up the stage
         primaryStage.setTitle("Circle Style App");
         primaryStage.setScene(scene);
         primaryStage.show();
