@@ -28,7 +28,7 @@ public class CircleStyleApp extends Application {
 
         // Apply CSS classes and IDs
         circle1.getStyleClass().addAll("plaincircle");
-        circle2.getStyleClass().addAll("plaincircle", "circleborder"); // ✅ uses both
+        circle2.getStyleClass().addAll("plaincircle", "circleborder");
         circle3.setId("redcircle");
         circle4.setId("greencircle");
 
