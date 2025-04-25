@@ -1,3 +1,3 @@
-javac --module-path lib --add-modules javafx.controls -d bin src/CircleStyleApp.java
+javac --module-path lib --add-modules javafx.controls -d src src/CircleStyleApp.java
 
-java --module-path lib --add-modules javafx.controls -cp bin CircleStyleApp
+java --module-path lib --add-modules javafx.controls -cp src CircleStyleApp
