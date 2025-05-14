@@ -1,5 +1,5 @@
 // Name: Nima Memarzadeh
-// Date: 04/21/2025
+// Date: 05/14/2025
 // Assignment: M1: Programming Assignment
 
 // This program displays 4 random card images from a specified folder and allows the user to refresh the display.
@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Main extends Application {
+public class CardDisplayApp extends Application {
 
     private final ImageView[] cardViews = new ImageView[4];
     private static final String CARD_DIRECTORY = "cards";
